@@ -14,6 +14,7 @@ const {
 
 // Middlewares
 const { validateFields } = require("../middlewares/fieldValidator");
+const { validateJWT } = require("../middlewares/jwtValidator");
 
 const router = Router();
 
@@ -38,6 +39,6 @@ router.post(
   loginUser
 );
 
-router.post("/revalidation", tokenRevalidation);
+router.post("/revalidation", validateJWT, tokenRevalidation);
 
 module.exports = router;
