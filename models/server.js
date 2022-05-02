@@ -20,7 +20,15 @@ class Server {
   }
   middlewares() {
     this.app.use(express.static(path.resolve(__dirname, "../public")));
+
+    // CORS
     this.app.use(cors());
+
+    // Body parser
+    this.app.use(express.json());
+
+    // API Endpoints
+    this.app.use("/api/auth", require("../routes/auth"));
   }
 
   configSockets() {
