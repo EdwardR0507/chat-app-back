@@ -29,6 +29,7 @@ class Server {
 
     // API Endpoints
     this.app.use("/api/auth", require("../routes/auth"));
+    this.app.use("/api/messages", require("../routes/messages"));
   }
 
   configSockets() {
