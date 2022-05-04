@@ -70,7 +70,7 @@ const loginUser = async (req, res) => {
 
     // Generate token
     const token = await generateJWT(
-      { id: user.id },
+      { uid: user.id },
       process.env.SECRET_JWT_KEY,
       "2h"
     );
