@@ -1,3 +1,6 @@
+const { userLoggedIn, userLoggedOut } = require("../controllers/sockets");
+const { checkJWT } = require("../utils/utils");
+
 class Sockets {
   constructor(io) {
     this.io = io;
@@ -5,8 +8,17 @@ class Sockets {
   }
   socketEvents() {
     // On connection
-    this.io.on("connection", (socket) => {
-      console.log("New client connected: ", socket.id);
+    this.io.on("connection", async (socket) => {
+      const [valid, uid] = checkJWT(socket.handshake.query.token);
+      if (!valid) {
+        console.log("Invalid token");
+        return socket.disconnect(true);
+      }
+      await userLoggedIn(uid);
+
+      socket.on("disconnect", async () => {
+        await userLoggedOut(uid);
+      });
     });
   }
 }

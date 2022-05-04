@@ -13,10 +13,20 @@ const generateJWT = async (payload, key, expiration) => {
   });
 };
 
+const checkJWT = (token = "") => {
+  try {
+    const { uid } = jwt.verify(token, process.env.SECRET_JWT_KEY);
+    return [true, uid];
+  } catch (error) {
+    return [false, null];
+  }
+};
+
 const comparePassword = (password, hash) => bcrypt.compareSync(password, hash);
 
 module.exports = {
   encryptPassword,
   generateJWT,
   comparePassword,
+  checkJWT,
 };
