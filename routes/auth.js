@@ -1,5 +1,5 @@
 /*
-  path: api/login
+  path: api/auth
 */
 
 const { Router } = require("express");
@@ -39,6 +39,6 @@ router.post(
   loginUser
 );
 
-router.post("/revalidation", validateJWT, tokenRevalidation);
+router.get("/revalidation", validateJWT, tokenRevalidation);
 
 module.exports = router;

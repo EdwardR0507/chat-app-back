@@ -91,16 +91,23 @@ const loginUser = async (req, res) => {
 };
 
 const tokenRevalidation = async (req, res) => {
-  const { uid } = req;
-  const token = await generateJWT({ uid }, process.env.SECRET_JWT_KEY, "2h");
-  const user = await User.findById(uid);
-
-  res.status(200).json({
-    ok: true,
-    message: "Token revalidated successfully",
-    token,
-    user,
-  });
+  try {
+    const { uid } = req;
+    const token = await generateJWT({ uid }, process.env.SECRET_JWT_KEY, "2h");
+    const user = await User.findById(uid);
+    res.status(200).json({
+      ok: true,
+      message: "Token revalidated successfully",
+      token,
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Error in the server",
+    });
+  }
 };
 
 module.exports = {
