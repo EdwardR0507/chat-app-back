@@ -14,4 +14,9 @@ const userLoggedOut = async (uid) => {
   return user;
 };
 
-module.exports = { userLoggedIn, userLoggedOut };
+const getUsers = async () => {
+  const users = await User.find().sort("-online");
+  return users;
+};
+
+module.exports = { getUsers, userLoggedIn, userLoggedOut };

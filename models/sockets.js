@@ -1,4 +1,8 @@
-const { userLoggedIn, userLoggedOut } = require("../controllers/sockets");
+const {
+  userLoggedIn,
+  userLoggedOut,
+  getUsers,
+} = require("../controllers/sockets");
 const { checkJWT } = require("../utils/utils");
 
 class Sockets {
@@ -12,12 +16,17 @@ class Sockets {
       const [valid, uid] = checkJWT(socket.handshake.query.token);
       if (!valid) {
         console.log("Invalid token");
-        return socket.disconnect(true);
+        return socket.disconnect();
       }
       await userLoggedIn(uid);
 
+      // Emit all users include the current user
+      this.io.emit("users-list", await getUsers());
+
       socket.on("disconnect", async () => {
         await userLoggedOut(uid);
+        // Refresh users list after logout
+        this.io.emit("users-list", await getUsers());
       });
     });
   }
