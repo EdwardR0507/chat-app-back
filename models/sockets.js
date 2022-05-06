@@ -20,6 +20,14 @@ class Sockets {
       }
       await userLoggedIn(uid);
 
+      // Join to the room
+      socket.join(uid); // The name of the room is the uid of the user
+
+      // Listen the message
+      socket.on("message", (data) => {
+        console.log(data);
+      });
+
       // Emit all users include the current user
       this.io.emit("users-list", await getUsers());
 

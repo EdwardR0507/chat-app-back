@@ -24,17 +24,9 @@ const createUser = async (req, res) => {
     // Save user in DB
     await user.save();
 
-    // Generate token
-    const token = await generateJWT(
-      { uid: user.id },
-      process.env.SECRET_JWT_KEY,
-      "2h"
-    );
-
     res.status(201).json({
       ok: true,
       message: "User created successfully",
-      token,
       user,
     });
   } catch (error) {
