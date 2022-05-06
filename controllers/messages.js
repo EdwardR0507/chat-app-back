@@ -8,9 +8,7 @@ const getChat = async (req, res) => {
         { from: id, to: from },
         { from, to: id },
       ],
-    })
-      .sort({ createdAt: -1 })
-      .limit(30);
+    }).limit(30);
 
     res.status(200).json({
       ok: true,
